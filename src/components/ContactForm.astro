@@ -1,0 +1,91 @@
+---
+// Web3Forms contact form. Works without JavaScript (normal POST → Web3Forms thank-you page);
+// with JS it submits in the background and shows the result inline.
+interface Props {
+  accessKey?: string;
+  subject?: string;
+  fallbackEmail: string;
+}
+const { accessKey, subject = 'New website inquiry', fallbackEmail } = Astro.props;
+
+const field = 'mt-2 w-full rounded-xl border border-line bg-ink/60 px-4 py-3 text-chrome placeholder:text-muted/60 transition-colors focus:border-gold focus:outline-none';
+const label = 'block text-sm font-medium text-chrome';
+---
+
+{accessKey ? (
+  <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6" data-contact-form>
+    <input type="hidden" name="access_key" value={accessKey} />
+    <input type="hidden" name="subject" value={subject} />
+    <input type="hidden" name="from_name" value="Website contact form" />
+    <!-- Honeypot: hidden from people, bots fill it in, Web3Forms drops those submissions -->
+    <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
+
+    <div class="grid gap-6 sm:grid-cols-2">
+      <label class={label}>Your name
+        <input class={field} name="name" required autocomplete="name" placeholder="Maria Lopez" />
+      </label>
+      <label class={label}>Email
+        <input class={field} name="email" type="email" required autocomplete="email" placeholder="maria@example.com" />
+      </label>
+      <label class={label}>Business name
+        <input class={field} name="business" autocomplete="organization" placeholder="Lopez Family Bakery" />
+      </label>
+      <label class={label}>Interested in
+        <select class={field} name="interest">
+          <option>A new website</option>
+          <option>Website + monthly care plan</option>
+          <option>Redoing my current website</option>
+          <option>Not sure yet</option>
+        </select>
+      </label>
+    </div>
+    <label class={label}>Tell me about your business
+      <textarea class={field} name="message" rows="5" required placeholder="What you do, who your customers are, and what you'd like your website to do."></textarea>
+    </label>
+
+    <div class="flex flex-wrap items-center gap-4">
+      <button type="submit" class="inline-flex items-center justify-center rounded-full bg-gold px-8 py-3 font-semibold text-ink shadow-[0_0_30px_-5px] shadow-gold/50 transition hover:bg-chrome disabled:cursor-wait disabled:opacity-60">
+        Send message
+      </button>
+      <!-- role=status: screen readers announce whatever we write here -->
+      <p class="text-sm" role="status" data-form-status></p>
+    </div>
+  </form>
+) : (
+  <div class="rounded-2xl border border-gold/40 bg-gold/5 p-6">
+    <p class="text-chrome">The contact form isn't set up yet. Email me directly instead:</p>
+    <a href={`mailto:${fallbackEmail}`} class="mt-2 inline-block font-semibold text-gold underline underline-offset-4">{fallbackEmail}</a>
+  </div>
+)}
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-form-status]')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault(); // browser already ran the required/type=email checks before firing submit
+      button.disabled = true;
+      status.className = 'text-sm';
+      status.textContent = 'Sending…';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.message);
+        form.reset();
+        status.className = 'text-sm text-gold';
+        status.textContent = 'Thanks! Your message was sent.';
+      } catch {
+        status.className = 'text-sm text-red-400';
+        status.textContent = 'Something went wrong. Please email me directly instead.';
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
+</script>

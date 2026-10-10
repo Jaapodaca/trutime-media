@@ -1,0 +1,37 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  title: string;
+  category: string;
+  text: string;
+  image?: ImageMetadata; // import from src/assets; leave out for a placeholder
+  href?: string;
+}
+const { title, category, text, image, href } = Astro.props;
+const Tag = href ? 'a' : 'div'; // whole card becomes a link only when there's somewhere to go
+---
+
+<article data-reveal>
+  <Tag
+    href={href}
+    class="glass group block overflow-hidden rounded-3xl transition-[border-color] duration-300 hover:border-gold/40"
+    {...(href?.startsWith('http') && { target: '_blank', rel: 'noopener' })}
+  >
+    <div class="relative aspect-[16/10] overflow-hidden bg-ink">
+      {image ? (
+        <Image src={image} alt="" class="size-full object-contain p-8 mix-blend-lighten transition duration-500 group-hover:scale-105" />
+      ) : (
+        <div class="flex size-full items-center justify-center bg-[radial-gradient(circle_at_center,color-mix(in_oklab,var(--color-gold)_15%,transparent),transparent_60%)]">
+          <span class="rounded-full border border-dashed border-gold/40 px-4 py-2 text-sm text-gold">Your project here</span>
+        </div>
+      )}
+    </div>
+    <div class="p-6 sm:p-8">
+      <p class="text-xs font-semibold uppercase tracking-[0.25em] text-gold">{category}</p>
+      <h3 class="mt-3 text-2xl font-semibold">{title}</h3>
+      <p class="mt-2">{text}</p>
+    </div>
+  </Tag>
+</article>

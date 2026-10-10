@@ -1,10 +1,36 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import CTA from '../components/CTA.astro';
+import logo from '../assets/logo-full.png';
 ---
 
-<Base title="Portfolio">
-  <section class="mx-auto max-w-6xl px-4 py-24 sm:px-6">
-    <h1 class="text-4xl font-bold sm:text-6xl">Portfolio</h1>
-    <p class="mt-4">Coming in phase 4.</p>
+<Base title="Portfolio" description="Websites built by TruTime Media for small businesses in El Paso, TX.">
+  <PageHeader
+    eyebrow="Portfolio"
+    title="Work in progress, in the best way."
+    text="TruTime Media is just getting started, so this page is growing. Here's the first project, and room for yours."
+  />
+
+  <section class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+    <div class="grid gap-6 md:grid-cols-2">
+      <!-- Add client projects here: <ProjectCard title="…" category="Restaurant" text="…" image={import} href="https://…" /> -->
+      <ProjectCard
+        title="TruTime Media"
+        category="Web design studio"
+        text="This website. Built with Astro, Tailwind and GSAP, with a custom 3D hero and a focus on speed."
+        image={logo}
+        href="/"
+      />
+      <ProjectCard
+        title="Your business"
+        category="Next up"
+        text="Restaurant, salon, contractor, shop or service. Your website could be the next one featured here."
+        href="/contact"
+      />
+    </div>
   </section>
+
+  <CTA title="Want to be featured here?" text="Let's build something you're proud to send customers to." />
 </Base>

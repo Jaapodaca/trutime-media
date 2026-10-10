@@ -1,10 +1,44 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+// import.meta.env reads .env at build time. PUBLIC_ prefix = allowed in browser-facing code.
+// (Web3Forms keys are designed to be public; they only let people send mail TO you.)
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY;
 ---
 
-<Base title="Contact">
-  <section class="mx-auto max-w-6xl px-4 py-24 sm:px-6">
-    <h1 class="text-4xl font-bold sm:text-6xl">Contact</h1>
-    <p class="mt-4">Coming in phase 4.</p>
+<Base title="Contact" description={`Get a free quote for a website for your ${site.city} business.`}>
+  <PageHeader
+    eyebrow="Contact"
+    title="Let's build your website."
+    text="Tell me a little about your business. No pressure, no jargon, just a conversation about what you need."
+  />
+
+  <section class="mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[1fr_2fr]">
+    <aside class="space-y-8" data-reveal>
+      <div>
+        <h2 class="text-xl font-semibold">Email</h2>
+        <a href={`mailto:${site.email}`} class="mt-2 inline-block break-all hover:text-gold">{site.email}</a>
+      </div>
+      <div>
+        <h2 class="text-xl font-semibold">Based in</h2>
+        <p class="mt-2 flex items-center gap-2"><Icon name="pin" class="size-5 text-gold" /> {site.city}, {site.region}</p>
+      </div>
+      <div>
+        <h2 class="text-xl font-semibold">What happens next</h2>
+        <ol class="mt-3 list-inside list-decimal space-y-2 marker:text-gold">
+          <li>I read your message and reply by email.</li>
+          <li>We talk about your business and goals.</li>
+          <li>You get a clear quote. No surprises.</li>
+        </ol>
+      </div>
+    </aside>
+
+    <div class="glass rounded-3xl p-6 sm:p-10" data-reveal>
+      <ContactForm accessKey={accessKey} fallbackEmail={site.email} />
+    </div>
   </section>
 </Base>

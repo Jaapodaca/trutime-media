@@ -1,0 +1,65 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/inter';
+
+/*
+  THEME TOKENS: the only block you change per client.
+  Every token here becomes a Tailwind class automatically:
+  --color-gold → bg-gold, text-gold, border-gold …
+  --font-display → font-display
+*/
+@theme {
+  --color-ink: #0a0a0a;      /* page background */
+  --color-panel: #141414;    /* cards, raised surfaces */
+  --color-line: #ffffff1a;   /* hairline borders (white @ 10%) */
+  --color-chrome: #e5e7eb;   /* headings, main text */
+  --color-muted: #9ca3af;    /* body copy */
+  --color-gold: #fbbf24;     /* accent: buttons, highlights */
+  --color-gold-deep: #b45309;
+
+  --font-display: 'Space Grotesk Variable', system-ui, sans-serif;
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    @apply bg-ink text-muted font-sans antialiased;
+    scroll-behavior: smooth;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display text-chrome tracking-tight;
+  }
+  ::selection {
+    @apply bg-gold text-ink;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-gold;
+  }
+}
+
+/* Custom utilities: used like any Tailwind class, e.g. class="text-chrome-metal" */
+@utility text-chrome-metal {
+  background: linear-gradient(180deg, #ffffff 0%, #d1d5db 45%, #6b7280 55%, #e5e7eb 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@utility text-gold-metal {
+  background: linear-gradient(180deg, #fde68a 0%, #fbbf24 50%, #b45309 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@utility glass {
+  @apply bg-panel/60 border border-line backdrop-blur-md;
+}
+
+/* Reduced motion: kill every CSS transition/animation site-wide. GSAP checks this separately. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

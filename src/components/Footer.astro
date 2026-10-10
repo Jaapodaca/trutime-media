@@ -1,0 +1,20 @@
+---
+import { site } from '../data/site';
+---
+
+<footer class="border-t border-line">
+  <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-3">
+    <div>
+      <p class="font-display text-lg font-bold"><span class="text-chrome-metal">TruTime</span> <span class="text-gold">Media</span></p>
+      <p class="mt-2 text-sm">{site.tagline}</p>
+    </div>
+    <ul class="space-y-2 text-sm">
+      {site.nav.map(({ label, href }) => <li><a href={href} class="hover:text-gold">{label}</a></li>)}
+    </ul>
+    <div class="text-sm">
+      <p class="text-chrome">Proudly based in {site.city}, {site.region}</p>
+      <a href={`mailto:${site.email}`} class="mt-2 inline-block break-all hover:text-gold">{site.email}</a>
+    </div>
+  </div>
+  <p class="border-t border-line py-6 text-center text-xs">© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
+</footer>

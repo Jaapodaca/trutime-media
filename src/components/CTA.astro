@@ -1,0 +1,20 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  title: string;
+  text: string;
+  href?: string;
+  label?: string;
+}
+const { title, text, href = '/contact', label = 'Get a free quote' } = Astro.props;
+---
+
+<section class="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
+  <div class="relative overflow-hidden rounded-3xl border border-gold/30 bg-panel px-6 py-16 text-center sm:px-16" data-reveal>
+    <div class="pointer-events-none absolute inset-x-0 -top-40 mx-auto h-80 max-w-2xl rounded-full bg-gold/15 blur-3xl"></div>
+    <h2 class="relative text-3xl font-bold sm:text-5xl"><span class="text-chrome-metal">{title}</span></h2>
+    <p class="relative mx-auto mt-4 max-w-xl text-lg">{text}</p>
+    <Button href={href} class="relative mt-8">{label}</Button>
+  </div>
+</section>

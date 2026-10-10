@@ -54,6 +54,12 @@
   @apply bg-panel/60 border border-line backdrop-blur-md;
 }
 
+/* Hidden until GSAP animates them in. Only applies when the "motion" class is set (see Base.astro). */
+.motion [data-reveal],
+.motion [data-hero] > * {
+  visibility: hidden;
+}
+
 /* Reduced motion: kill every CSS transition/animation site-wide. GSAP checks this separately. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -1,17 +1,47 @@
 ---
 import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import CTA from '../components/CTA.astro';
+import Button from '../components/Button.astro';
+import { site } from '../data/site';
 ---
 
 <Base>
-  <section class="mx-auto max-w-6xl px-4 py-24 sm:px-6">
-    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-gold">El Paso, TX</p>
-    <h1 class="mt-4 text-5xl font-bold sm:text-7xl">
-      <span class="text-chrome-metal">Websites built</span><br /><span class="text-gold-metal">on TruTime.</span>
-    </h1>
-    <p class="mt-6 max-w-xl">Phase 1 placeholder: theme, layout, nav and footer. The real hero arrives in phase 2.</p>
-    <div class="glass mt-10 max-w-sm rounded-2xl p-6">
-      <h2 class="text-xl font-semibold">Glass card</h2>
-      <p class="mt-2 text-sm">Preview of the reusable surface style.</p>
+  <Hero
+    scene
+    eyebrow={`Web design · ${site.city}, ${site.region}`}
+    lines={['Websites built', 'on TruTime.']}
+    text="Modern, lightning-fast websites for local businesses, plus an optional monthly plan so you never have to touch hosting or updates."
+  />
+
+  <Section eyebrow="What I do" title="Everything your business needs online." intro="No jargon, no surprise bills. A website that looks sharp, loads fast and brings in customers.">
+    <div class="grid gap-6 md:grid-cols-3">
+      {site.services.map((s) => <ServiceCard {...s} />)}
     </div>
-  </section>
+    <div class="mt-10" data-reveal>
+      <Button href="/services" variant="ghost">Compare plans and pricing</Button>
+    </div>
+  </Section>
+
+  <Section eyebrow="How it works" title="From first call to launch day.">
+    <ol class="relative grid gap-10 md:grid-cols-4 md:gap-6">
+      <!-- track + gold fill that grows as you scroll (data-progress) -->
+      <div class="absolute top-5 right-0 left-0 hidden h-px bg-line md:block" aria-hidden="true">
+        <div class="h-full origin-left bg-gold" data-progress></div>
+      </div>
+      {site.steps.map((step, i) => (
+        <li class="relative" data-reveal>
+          <span class="relative flex size-10 items-center justify-center rounded-full border border-gold/50 bg-ink font-display font-bold text-gold">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <h3 class="mt-5 text-xl font-semibold">{step.title}</h3>
+          <p class="mt-2">{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <CTA title="Ready to look legit online?" text={`Tell me about your business. I'll get back to you within one business day with ideas and a quote.`} />
 </Base>

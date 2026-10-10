@@ -1,0 +1,18 @@
+---
+// Tiny inline icon set. Add a path here when you need a new icon.
+const paths: Record<string, string> = {
+  monitor: 'M3 5h18v11H3zM8 20h8M12 16v4',
+  refresh: 'M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4',
+  pin: 'M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z',
+  arrow: 'M5 12h14M13 6l6 6-6 6',
+};
+interface Props {
+  name: string;
+  class?: string;
+}
+const { name, class: cls = 'size-6' } = Astro.props;
+---
+
+<svg class={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d={paths[name]} />
+</svg>

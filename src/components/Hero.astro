@@ -1,0 +1,57 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  eyebrow: string;
+  lines: [string, string]; // first line chrome, second line gold
+  text: string;
+  scene?: boolean; // load the Three.js particle clock (desktop + motion only)
+}
+const { eyebrow, lines, text, scene = false } = Astro.props;
+---
+
+<section class="relative isolate flex min-h-[calc(100dvh-73px)] items-center overflow-hidden">
+  <!-- Fallback/base background: faint grid fading out at the edges + gold glow. Pure CSS, always shown. -->
+  <div
+    class="absolute inset-0 -z-20 bg-[linear-gradient(var(--color-line)_1px,transparent_1px),linear-gradient(90deg,var(--color-line)_1px,transparent_1px)] bg-size-[64px_64px] mask-[radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"
+  ></div>
+  <div class="absolute top-1/2 right-0 -z-20 size-[36rem] -translate-y-1/2 translate-x-1/4 rounded-full bg-gold/15 blur-[120px]"></div>
+
+  {scene && <canvas data-hero-scene class="absolute inset-0 -z-10 size-full opacity-0 transition-opacity duration-[2s]" aria-hidden="true"></canvas>}
+  <!-- darkens the left side so the headline always reads cleanly over the particles -->
+  <div class="absolute inset-0 -z-10 bg-linear-to-r from-ink via-ink/60 to-transparent"></div>
+
+  <div class="mx-auto w-full max-w-6xl px-4 py-20 sm:px-6" data-hero>
+    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-gold">{eyebrow}</p>
+    <h1 class="mt-5 text-5xl leading-[1.05] font-bold sm:text-7xl lg:text-8xl">
+      <span class="block overflow-hidden pb-2"><span class="text-chrome-metal block" data-line>{lines[0]}</span></span>
+      <span class="block overflow-hidden pb-2"><span class="text-gold-metal block" data-line>{lines[1]}</span></span>
+    </h1>
+    <p class="mt-6 max-w-xl text-lg sm:text-xl">{text}</p>
+    <div class="mt-10 flex flex-wrap gap-4">
+      <Button href="/contact">Get a free quote</Button>
+      <Button href="/services" variant="ghost">See services</Button>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Astro bundles <script> tags like this one (TypeScript + imports work) and ships them as a module.
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-hero-scene]');
+  const ok = matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)').matches;
+
+  if (canvas && ok) {
+    // Wait until the page is fully loaded AND the browser is idle, so 3D never slows the first paint.
+    addEventListener('load', () => {
+      const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 200));
+      idle(async () => {
+        try {
+          const { startHeroScene } = await import('../scripts/hero-scene'); // separate chunk, only fetched here
+          startHeroScene(canvas);
+        } catch {
+          // No WebGL → the CSS background is already there; nothing to do.
+        }
+      });
+    }, { once: true });
+  }
+</script>

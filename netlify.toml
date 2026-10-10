@@ -1,0 +1,13 @@
+# Netlify reads this automatically, so you don't have to type build settings in the dashboard.
+[build]
+  command = "pnpm build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"   # Astro 7 needs Node 22.12+
+
+# Cache fingerprinted assets forever (their filenames change whenever their content changes)
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

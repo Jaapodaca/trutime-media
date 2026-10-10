@@ -3,6 +3,7 @@
 //   data-hero          → children animate in on page load (data-line children slide up from a mask)
 //   data-reveal        → fades/slides in when scrolled into view
 //   data-progress      → scaleX scrubbed by scroll position (e.g. a timeline line)
+//   data-count="76"    → number counts up from 0 when scrolled into view
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -30,6 +31,16 @@ gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
       scaleX: 1,
       ease: 'none',
       scrollTrigger: { trigger: el.parentElement, start: 'top 75%', end: 'bottom 50%', scrub: true },
+    });
+  });
+
+  gsap.utils.toArray<HTMLElement>('[data-count]').forEach((el) => {
+    gsap.from(el, {
+      textContent: 0,
+      snap: { textContent: 1 }, // whole numbers only
+      duration: 2,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
     });
   });
 });

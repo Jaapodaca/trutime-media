@@ -1,0 +1,21 @@
+---
+interface Props {
+  value: number;
+  suffix?: string;
+  text: string;
+  source: string;
+  href: string;
+}
+const { value, suffix = '', text, source, href } = Astro.props;
+---
+
+<figure class="glass flex flex-col rounded-2xl p-8" data-reveal>
+  <!-- Final number is in the HTML (works without JS / with reduced motion); GSAP counts up to it. -->
+  <p class="font-display text-6xl font-bold sm:text-7xl">
+    <span class="text-gold-metal"><span data-count={value}>{value}</span>{suffix}</span>
+  </p>
+  <blockquote class="mt-4 flex-1 text-chrome">{text}</blockquote>
+  <figcaption class="mt-6 text-xs">
+    Source: <a href={href} class="underline decoration-line underline-offset-4 hover:text-gold" target="_blank" rel="noopener">{source}</a>
+  </figcaption>
+</figure>

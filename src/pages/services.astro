@@ -1,10 +1,32 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import StatCard from '../components/StatCard.astro';
+import PlanCard from '../components/PlanCard.astro';
+import CTA from '../components/CTA.astro';
+import { site } from '../data/site';
 ---
 
-<Base title="Services">
-  <section class="mx-auto max-w-6xl px-4 py-24 sm:px-6">
-    <h1 class="text-4xl font-bold sm:text-6xl">Services</h1>
-    <p class="mt-4">Coming in phase 3.</p>
-  </section>
+<Base title="Services" description={`Custom websites and monthly care plans for small businesses in ${site.city}, ${site.region}.`}>
+  <PageHeader
+    eyebrow="Services"
+    title="Your business, online and working."
+    text="One custom website, plus an optional monthly plan that keeps it fast, secure and up to date. Every quote is based on what your business actually needs."
+  />
+
+  <Section eyebrow="Why it matters" title="Your customers are already looking." intro="Before they call, visit or buy, people check you out online. Here's what the research says.">
+    <div class="grid gap-6 sm:grid-cols-2">
+      {site.stats.map((s) => <StatCard {...s} />)}
+    </div>
+  </Section>
+
+  <Section eyebrow="What you get" title="Two ways to work together." intro="Start with a website build. Add the care plan if you'd rather never think about hosting or updates.">
+    <div class="grid gap-6 lg:grid-cols-2">
+      {site.plans.map((p) => <PlanCard {...p} />)}
+    </div>
+    <p class="mt-8 text-sm" data-reveal>Every business is different, so pricing is a custom quote. You'll know the exact cost before any work starts.</p>
+  </Section>
+
+  <CTA title="Let's talk about your business." text="Tell me what you do and what you need. I'll put together a quote that fits." />
 </Base>

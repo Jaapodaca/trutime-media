@@ -1,0 +1,20 @@
+---
+// Smaller hero for inner pages (Services, Portfolio, Contact). Uses the same data-hero intro animation.
+interface Props {
+  eyebrow: string;
+  title: string;
+  text?: string;
+}
+const { eyebrow, title, text } = Astro.props;
+---
+
+<section class="relative isolate overflow-hidden border-b border-line">
+  <div class="absolute -top-40 left-1/2 -z-10 h-80 w-full max-w-3xl -translate-x-1/2 rounded-full bg-gold/10 blur-3xl"></div>
+  <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28" data-hero>
+    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-gold">{eyebrow}</p>
+    <h1 class="mt-4 text-4xl font-bold sm:text-6xl">
+      <span class="block overflow-hidden pb-2"><span class="text-chrome-metal block" data-line>{title}</span></span>
+    </h1>
+    {text && <p class="mt-5 max-w-2xl text-lg sm:text-xl">{text}</p>}
+  </div>
+</section>

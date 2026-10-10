@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://trutimemedia.com/sitemap-index.xml

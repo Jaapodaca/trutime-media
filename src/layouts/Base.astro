@@ -43,6 +43,12 @@ const jsonLd = {
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:image" content={new URL('/og-image.png', Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.name} logo`} />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <!-- is:inline = Astro leaves this script exactly as written (no bundling), so it runs before first paint.
          The "motion" class lets CSS hide animated elements until GSAP reveals them (no flash). -->

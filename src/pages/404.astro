@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+---
+
+<Base title="Page not found">
+  <section class="mx-auto flex min-h-[60dvh] max-w-6xl flex-col items-start justify-center px-4 py-24 sm:px-6" data-hero>
+    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-gold">Error 404</p>
+    <h1 class="mt-4 text-5xl font-bold sm:text-7xl">
+      <span class="block overflow-hidden pb-2"><span class="text-chrome-metal block" data-line>Wrong time,</span></span>
+      <span class="block overflow-hidden pb-2"><span class="text-gold-metal block" data-line>wrong place.</span></span>
+    </h1>
+    <p class="mt-6 max-w-xl text-lg">That page doesn't exist. Let's get you back on track.</p>
+    <div class="mt-10 flex flex-wrap gap-4">
+      <Button href="/">Go home</Button>
+      <Button href="/contact" variant="ghost">Contact me</Button>
+    </div>
+  </section>
+</Base>

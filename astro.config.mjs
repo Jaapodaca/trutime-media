@@ -4,8 +4,8 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  // ponytail: placeholder domain, change when you buy one (used for canonical/OG URLs and the sitemap)
-  site: 'https://trutimemedia.com',
+  // Live URL, used for canonical/OG URLs and the sitemap. Change when you buy a custom domain (also in public/robots.txt).
+  site: 'https://trutimemedia.netlify.app',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],

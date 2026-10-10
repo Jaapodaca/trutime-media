@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://trutimemedia.com/sitemap-index.xml
+Sitemap: https://trutimemedia.netlify.app/sitemap-index.xml
